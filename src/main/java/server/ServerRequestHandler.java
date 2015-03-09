@@ -86,7 +86,7 @@ class ServerRequestHandler{
 
     private class DelayedHelloWorld implements TimerTask {
         private ChannelHandlerContext ctx;
-        private FullHttpResponse response;
+        private FullHttpResponse response; //with all this information can be sent by itself
         private HttpRequest req;
 
         public DelayedHelloWorld(ChannelHandlerContext ctx, HttpRequest req, FullHttpResponse response) {

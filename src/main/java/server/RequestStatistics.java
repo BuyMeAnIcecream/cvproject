@@ -18,7 +18,7 @@ public class RequestStatistics {
     private final Object totalConLock = new Object(); //these 2 are used to lock variables in getters
     private final Object activeConLock = new Object();
 
-    private static RequestStatistics req;
+    private static RequestStatistics req; //as far as only 1 instance is needed we use Singleton
 
     public static RequestStatistics getInstance(){
         if(req == null) {
