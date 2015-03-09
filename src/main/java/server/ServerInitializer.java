@@ -10,7 +10,7 @@ import io.netty.handler.ssl.SslContext;
 /**
  * Created by Oldoak on 3/5/2015.
  */
-public class ServerInitializer extends ChannelInitializer<SocketChannel> {
+class ServerInitializer extends ChannelInitializer<SocketChannel> {
 
     private final SslContext sslCtx;
 
@@ -29,6 +29,6 @@ public class ServerInitializer extends ChannelInitializer<SocketChannel> {
         }
         pipeline.addLast("decoder", new HttpRequestDecoder());
         pipeline.addLast("encoder", new HttpResponseEncoder());
-        pipeline.addLast(new ServerHandler(ip));         //In order to save ip we pass further
+        pipeline.addLast(new ServerHandler(ip));         //In order to save ip its passed further
     }
 }

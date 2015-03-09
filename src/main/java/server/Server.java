@@ -13,10 +13,10 @@ import io.netty.handler.ssl.util.SelfSignedCertificate;
 /**
  * Created by Oldoak on 3/4/2015.
  */
-public final class Server {
+final class Server {
 
-    static final boolean SSL = System.getProperty("ssl") != null;
-    static final int PORT = Integer.parseInt(System.getProperty("port", "80"));
+    private static final boolean SSL = System.getProperty("ssl") != null;
+    private static final int PORT = Integer.parseInt(System.getProperty("port", "80"));
 
     public static void main(String[] args) throws Exception {
         // Configure SSL.

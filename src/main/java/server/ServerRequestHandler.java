@@ -11,8 +11,9 @@ import static io.netty.buffer.Unpooled.copiedBuffer;
 /**
  * Created by Oldoak on 3/5/2015.
  */
-public class ServerRequestHandler{
+class ServerRequestHandler{
     private static Timer timeout = new HashedWheelTimer();
+    private final String nl = "\n"; //new line
 
     public ByteBuf getResponse(ChannelHandlerContext ctx, HttpRequest req, ServerHandler main) {
 
@@ -23,18 +24,16 @@ public class ServerRequestHandler{
 
         if (req.getUri().equals("/hello")) {
             ByteBuf hello = copiedBuffer("<html><body><h1>Hello World</h1></body></html>", CharsetUtil.UTF_8);
-            timeout.newTimeout(new HelloWorldTimerTask(ctx, req,
+            timeout.newTimeout(new DelayedHelloWorld(ctx, req,
                     ServerHandler.formResponse(hello)), 10, TimeUnit.SECONDS);
-
-            main.hello = true;
-
+            main.hello = true; //just to handle the request in ServerHandler now, not in 10 seconds
             return null;
         }
 
         if ("/favicon.ico".equals(req.getUri())) {
             FullHttpResponse res = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.NOT_FOUND);
             ServerHandler.sendHttpResponse(ctx, req, res);
-            return null;
+            return null; //to return 404
         }
 
         if ("/status".equals(req.getUri())) {
@@ -53,7 +52,6 @@ public class ServerRequestHandler{
 
         RequestStatistics req = RequestStatistics.getInstance();
         List ipList = req.getIpList();
-        final String nl = "\n"; //new line
         String response = "<html><head><style>" +
                 "table{ border-collapse: collapse; }" +
                 "table,td,th{ border: 1px solid black; } th{font-weight: normal;}</style></head>" +
@@ -86,15 +84,15 @@ public class ServerRequestHandler{
         return copiedBuffer(response, CharsetUtil.UTF_8);
     }
 
-    private class HelloWorldTimerTask implements TimerTask {
+    private class DelayedHelloWorld implements TimerTask {
         private ChannelHandlerContext ctx;
         private FullHttpResponse response;
         private HttpRequest req;
 
-        public HelloWorldTimerTask(ChannelHandlerContext ctx, HttpRequest req, FullHttpResponse response) {
-            setCtx(ctx);
-            setResponse(response);
-            setRequest(req);
+        public DelayedHelloWorld(ChannelHandlerContext ctx, HttpRequest req, FullHttpResponse response) {
+            this.ctx = ctx;
+            this.response = response;
+            this.req = req;
         }
 
         @Override
@@ -103,16 +101,5 @@ public class ServerRequestHandler{
             ctx.flush();
         }
 
-        public void setCtx(ChannelHandlerContext ctx) {
-            this.ctx = ctx;
-        }
-
-        public void setResponse(FullHttpResponse response) {
-            this.response = response;
-        }
-
-        public void setRequest(HttpRequest req) {
-            this.req = req;
-        }
     }
 }

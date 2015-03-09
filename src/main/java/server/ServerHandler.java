@@ -16,8 +16,7 @@ import static io.netty.buffer.Unpooled.copiedBuffer;
  */
 
 
-
-public class ServerHandler extends ChannelInboundHandlerAdapter{
+class ServerHandler extends ChannelInboundHandlerAdapter{
 
     private long timer;
     private long readTimer;

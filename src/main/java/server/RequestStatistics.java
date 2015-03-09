@@ -8,7 +8,7 @@ import java.util.*;
  */
 public class RequestStatistics {
 
-    static List ipList = Collections.synchronizedList(new LinkedList());
+    private static List ipList = Collections.synchronizedList(new LinkedList());
 
 
     private Map<String, Long> url = new TreeMap<>(); //url, number of redirects
@@ -18,7 +18,7 @@ public class RequestStatistics {
     private final Object totalConLock = new Object(); //these 2 are used to lock variables in getters
     private final Object activeConLock = new Object();
 
-    public static RequestStatistics req;
+    private static RequestStatistics req;
 
     public static RequestStatistics getInstance(){
         if(req == null) {
@@ -79,7 +79,7 @@ public class RequestStatistics {
                 req.ip.put(ip, i);
             }
     }
-    public static synchronized String stringElement(LogIp o){
+    private static synchronized String stringElement(LogIp o){
         String s = "<tr><th>" + o.getSrcIp()+ "</th><th>"+ o.getUrl()+"</th><th>"+ o.getTimestamp();
         s += "</th><th>"+ o.getSentBytes()+"</th><th>"+ o.getReceivedBytes() + "</th><th>" + o.getSpeed() + "</th></tr>";
         return s;

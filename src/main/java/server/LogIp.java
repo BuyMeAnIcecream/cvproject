@@ -3,15 +3,15 @@ package server;
 /**
  * Created by Oldoak on 3/6/2015.
  */
-public class LogIp {
+class LogIp {
 
 
-    final String srcIp;
-    final String url;
-    final long timestamp;
-    final long sentBytes;
-    final long receivedBytes;
-    final long speed; //bytes/sec
+    private final String srcIp;
+    private final String url;
+    private final long timestamp;
+    private final long sentBytes;
+    private final long receivedBytes;
+    private final long speed; //bytes/sec
 
     LogIp(String s, String u, long t, long se, long re, long sp){
         this.srcIp = s;
