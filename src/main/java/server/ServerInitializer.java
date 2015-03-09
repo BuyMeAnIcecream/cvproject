@@ -21,7 +21,7 @@ public class ServerInitializer extends ChannelInitializer<SocketChannel> {
     @Override
     public void initChannel(SocketChannel ch) throws Exception {
 
-        String ip = ch.remoteAddress().getHostString();
+        String ip = ch.remoteAddress().getHostString();     //Request's IP can not be identified any further
 
         ChannelPipeline pipeline = ch.pipeline();
         if (sslCtx != null) {
@@ -29,6 +29,6 @@ public class ServerInitializer extends ChannelInitializer<SocketChannel> {
         }
         pipeline.addLast("decoder", new HttpRequestDecoder());
         pipeline.addLast("encoder", new HttpResponseEncoder());
-        pipeline.addLast(new ServerMainHandler(ip));
+        pipeline.addLast(new ServerHandler(ip));         //In order to save ip we pass further
     }
 }

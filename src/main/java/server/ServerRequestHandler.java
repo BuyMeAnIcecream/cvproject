@@ -14,17 +14,17 @@ import static io.netty.buffer.Unpooled.copiedBuffer;
 public class ServerRequestHandler{
     private static Timer timeout = new HashedWheelTimer();
 
-    public ByteBuf getResponse(ChannelHandlerContext ctx, HttpRequest req, ServerMainHandler main) {
+    public ByteBuf getResponse(ChannelHandlerContext ctx, HttpRequest req, ServerHandler main) {
 
         if (req.getUri().startsWith("/redirect?url=")) {
-            ServerMainHandler.sendRedirect(ctx, req.getUri().substring(14) + '/');
+            ServerHandler.sendRedirect(ctx, req.getUri().substring(14) + '/');
             return null;
         }
 
         if (req.getUri().equals("/hello")) {
             ByteBuf hello = copiedBuffer("<html><body><h1>Hello World</h1></body></html>", CharsetUtil.UTF_8);
             timeout.newTimeout(new HelloWorldTimerTask(ctx, req,
-                    ServerMainHandler.formResponse(hello)), 10, TimeUnit.SECONDS);
+                    ServerHandler.formResponse(hello)), 10, TimeUnit.SECONDS);
 
             main.hello = true;
 
@@ -33,7 +33,7 @@ public class ServerRequestHandler{
 
         if ("/favicon.ico".equals(req.getUri())) {
             FullHttpResponse res = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.NOT_FOUND);
-            ServerMainHandler.sendHttpResponse(ctx, req, res);
+            ServerHandler.sendHttpResponse(ctx, req, res);
             return null;
         }
 
@@ -44,7 +44,7 @@ public class ServerRequestHandler{
         }
 
         FullHttpResponse res = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.FORBIDDEN);
-        ServerMainHandler.sendHttpResponse(ctx, req, res);
+        ServerHandler.sendHttpResponse(ctx, req, res);
 
         return null;
     }
@@ -99,7 +99,7 @@ public class ServerRequestHandler{
 
         @Override
         public void run(Timeout t) throws Exception {
-            ServerMainHandler.sendHttpResponse(ctx, req, response);
+            ServerHandler.sendHttpResponse(ctx, req, response);
             ctx.flush();
         }
 

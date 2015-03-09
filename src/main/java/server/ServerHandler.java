@@ -17,7 +17,7 @@ import static io.netty.buffer.Unpooled.copiedBuffer;
 
 
 
-public class ServerMainHandler extends ChannelInboundHandlerAdapter{
+public class ServerHandler extends ChannelInboundHandlerAdapter{
 
     private long timer;
     private long readTimer;
@@ -30,7 +30,7 @@ public class ServerMainHandler extends ChannelInboundHandlerAdapter{
     public boolean hello = false;
 
 
-    public ServerMainHandler(String ip){
+    public ServerHandler(String ip){
         req = RequestStatistics.getInstance();
         this.ip = ip;
     }
