@@ -84,7 +84,7 @@ class ServerRequestHandler{
         return copiedBuffer(response, CharsetUtil.UTF_8);
     }
 
-    private class DelayedHelloWorld implements TimerTask {
+    private class DelayedHelloWorld implements TimerTask { //I KNOW, EVENTEXECUTOR SHOULD BE USED. WILL FIX THIS AS SOON AS PSBL
         private ChannelHandlerContext ctx;
         private FullHttpResponse response; //with all this information can be sent by itself
         private HttpRequest req;
