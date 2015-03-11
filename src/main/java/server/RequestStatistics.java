@@ -46,7 +46,7 @@ public class RequestStatistics {
 
     public static synchronized void insertElement(LogIp o){
 
-        try{
+
             synchronized (req.url) {
                 if (o.getUrl().startsWith("/redirect?url=")) {
                     String url = o.getUrl().substring(14);
@@ -57,7 +57,7 @@ public class RequestStatistics {
                     }
                 }
             }
-        }catch (NullPointerException e ){}
+
 
         synchronized (ipList) {
 

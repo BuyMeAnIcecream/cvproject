@@ -18,8 +18,8 @@ import static io.netty.buffer.Unpooled.copiedBuffer;
 
 class ServerHandler extends ChannelInboundHandlerAdapter{
 
-    private long timer;
-    private long readTimer;
+    private long timer;        //Started in channelActive() stoped in readComplete() to calculate speed
+    private long readTimer;   //ChannelRead() for timestamp generation
     private RequestStatistics req;
     private String ip;
     private String url;
