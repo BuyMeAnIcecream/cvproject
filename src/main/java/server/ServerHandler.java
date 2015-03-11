@@ -26,7 +26,7 @@ class ServerHandler extends ChannelInboundHandlerAdapter{
 
     private long sentBytes;
     private long receivedBytes;
-    public boolean hello = false;
+    public boolean hello = false; // if /hello is handled with timertask - we process it here
 
 
     public ServerHandler(String ip){
@@ -96,9 +96,9 @@ class ServerHandler extends ChannelInboundHandlerAdapter{
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) {
         long elapsed = System.currentTimeMillis() - timer;
-        if(elapsed ==0)elapsed =1;
+        if(elapsed ==0)elapsed =1; //to avoid division by 0
         long speed = (receivedBytes +sentBytes)*1000/elapsed;
-        if(url!=null)
+        if(url!=null) // null requests happen to appear
             RequestStatistics.insertElement(new LogIp(ip, url, readTimer, sentBytes, receivedBytes, speed));   //to stack
         ctx.flush();
     }
